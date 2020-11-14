@@ -2,6 +2,11 @@
 :: hXR16F.ar@gmail.com, https://github.com/hXR16F
 
 @echo off
+setlocal EnableDelayedExpansion
+title Progress Bar
+set default_color=0f
+color %default_color%
+
 if defined __ goto :variables
 set __=.
 darkbox | call %0 %* | darkbox
@@ -15,17 +20,16 @@ goto :eof
 :: 192 196 217
 
 :variables
-	color 0f
-	setlocal EnableDelayedExpansion
 	echo -h 0
 
+	set bar_size_x=60
+	set bar_color_fill=9
+	set bar_color_bg=0
 	set "window_x=80"
 	set "window_y=25"
-	mode %window_x%,%window_y%
 
-	set bar_size_x=60
+	mode %window_x%,%window_y%
 	set "bar_horizontal="
-	set bar_color=9
 
 	set /a bar_center_pos_x=(%window_x% - %bar_size_x%) / 2
 	set /a bar_center_pos_y_1=%window_y% / 2 - 2
@@ -42,16 +46,16 @@ goto :eof
 
 :main
 	echo -g %bar_center_pos_x% %bar_center_pos_y_1% -a 218 !bar_horizontal_top_botton! -a 191
-	echo -g %bar_center_pos_x% %bar_center_pos_y_2% -a 179 -d "!bar_horizontal_middle!" -a 179
+	echo -g %bar_center_pos_x% %bar_center_pos_y_2% -a 179 -c 0x!bar_color_bg!!bar_color_fill! -d "!bar_horizontal_middle!" -c 0x%default_color% -a 179
 	echo -g %bar_center_pos_x% %bar_center_pos_y_3% -a 192 !bar_horizontal_top_botton! -a 217
 
 	:loop
 		for %%a in (
-			"0x0!bar_color!"
-			"0x!bar_color!0"
+			!bar_color_bg!!bar_color_fill!
+			!bar_color_fill!!bar_color_bg!
 		) do (
 			for /l %%i in (!bar_center_pos_x_fill_from!,1,!bar_center_pos_x_fill_to!) do (
-				echo -g %%i %bar_center_pos_y_2% -c %%~a -a 219 -w 25
+				echo -g %%i %bar_center_pos_y_2% -c 0x%%a -a 219 -w 25
 			)
 		)
 		goto :loop
