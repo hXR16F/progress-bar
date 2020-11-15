@@ -3,16 +3,6 @@
 
 @echo off
 setlocal EnableDelayedExpansion
-title Progress Bar
-set default_color=0f
-color %default_color%
-
-if defined __ goto :variables
-set __=.
-darkbox | call %0 %* | darkbox
-set __=
-pause >nul
-goto :eof
 
 :: chars
 :: 218 196 191
@@ -22,13 +12,17 @@ goto :eof
 :variables
 	echo -h 0
 
-	set bar_size_x=60
-	set bar_color_fill=9
-	set bar_color_bg=0
-	set "window_x=80"
-	set "window_y=25"
+	for /f "tokens=1,2,3 delims=:" %%i in ('call getcolor.exe') do (
+		set cl=%%i
+		set default_color=!cl:~2,2!
+	)
 
-	mode %window_x%,%window_y%
+	set bar_size_x=%3
+	set bar_color_fill=%5
+	set bar_color_bg=%4
+	set "window_x=%1"
+	set "window_y=%2"
+
 	set "bar_horizontal="
 
 	set /a bar_center_pos_x=(%window_x% - %bar_size_x%) / 2
@@ -54,8 +48,14 @@ goto :eof
 			!bar_color_bg!!bar_color_fill!
 			!bar_color_fill!!bar_color_bg!
 		) do (
+			if exist "progress-bar.stop" (
+				del /f /q progress-bar.stop >nul
+				echo. > "progress-bar.reply"
+				exit
+			)
 			for /l %%i in (!bar_center_pos_x_fill_from!,1,!bar_center_pos_x_fill_to!) do (
 				echo -g %%i %bar_center_pos_y_2% -c 0x%%a -a 219 -w 25
 			)
 		)
+
 		goto :loop
