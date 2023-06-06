@@ -1,5 +1,5 @@
 <p align="center">
-	<b>progress-bar</b>
+	<b>progress-bar — <a href="https://www.youtube.com/watch?v=F7b_Ozas-WI">YouTube</a></b>
 	<br>
  	<i>Fancy and customizable progress bar for your batch scripts.</i>
 	<br><br><br>
