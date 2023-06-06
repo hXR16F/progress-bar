@@ -1,6 +1,3 @@
-:: Programmed by hXR16F
-:: hXR16F.ar@gmail.com, https://github.com/hXR16F
-
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -12,6 +9,7 @@ setlocal EnableDelayedExpansion
 :variables
 	echo -h 0
 
+	:: https://github.com/hXR16F/getcolor
 	for /f "tokens=1,2,3 delims=:" %%i in ('call getcolor.exe') do (
 		set cl=%%i
 		set default_color=!cl:~2,2!
@@ -48,13 +46,15 @@ setlocal EnableDelayedExpansion
 			!bar_color_bg!!bar_color_fill!
 			!bar_color_fill!!bar_color_bg!
 		) do (
-			if exist "progress-bar.stop" (
-				del /f /q progress-bar.stop >nul
-				echo. > "progress-bar.reply"
-				exit
-			)
 			for /l %%i in (!bar_center_pos_x_fill_from!,1,!bar_center_pos_x_fill_to!) do (
-				echo -g %%i %bar_center_pos_y_2% -c 0x%%a -a 219 -w 25
+				if exist "progress-bar.stop" (
+					del /f /q progress-bar.stop >nul
+					echo. > "progress-bar.reply"
+					exit
+				)
+				echo -g %%i %bar_center_pos_y_2% -c 0x%%a -a 219
+				:: using legacy 'ping' timeout instead of bugged '-w' param
+				for /l %%x in (1,1,2) do @ping localhost -n 1 >nul
 			)
 		)
 

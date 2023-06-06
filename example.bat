@@ -3,6 +3,7 @@ setlocal EnableDelayedExpansion
 mode 80,25
 color 0f
 
+:: https://gitlab.com/TSnake41/darkbox
 if defined __ goto :main
 set __=.
 darkbox | call %0 %* | darkbox
@@ -11,8 +12,12 @@ pause >nul
 goto :eof
 
 :main
-	start /b "" "progress-bar.bat" 80 25 60 1 9
+	:: params: window_x_size window_y_size progress_width bg_color fg_color
+	start /b "" "progress-bar.bat" 80 25 60 0 c
+
+	:: your code goes here
 	ping google.com > "ping.txt"
+	:: --------
 
 	echo. > "progress-bar.stop"
 	:check-for-reply
