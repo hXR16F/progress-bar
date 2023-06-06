@@ -28,9 +28,9 @@ In the main section, where your code is located, add this line above:
 ```bat
 start /b "" "progress-bar.bat" window_x_size window_y_size progress_width bg_color fg_color
 ```
-* window_x_size: The desired width of the console window in characters.
-* window_y_size: The desired height of the console window in characters.
-* progress_width: The width of the progress bar in characters.
+* window_x_size: The width of the console window in characters.
+* window_y_size: The height of the console window in characters.
+* progress_width: The desired width of the progress bar in characters.
 * bg_color: The background color of the progress bar.
 * fg_color: The foreground color of the progress bar.
 
